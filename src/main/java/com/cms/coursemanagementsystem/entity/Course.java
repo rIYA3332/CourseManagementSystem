@@ -1,6 +1,9 @@
 package com.cms.coursemanagementsystem.entity;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -13,6 +16,21 @@ public class Course {
     private String courseName;
     private String description;
     private int durationInWeeks;
+
+    @OneToOne(mappedBy = "course", cascade = CascadeType.ALL)
+    private Teacher teacher; // One course has one teacher
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "program_id")
+    private Program program; // Many courses belong to one program
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Module> modules; // One course has many modules
+
+    @ManyToMany(mappedBy = "courses")
+    private Set<Student> students = new HashSet<>(); // Many courses have many students
+
+    // ... (Constructors and existing getters/setters remain the same) ...
 
     public Course() {}
 
@@ -48,5 +66,39 @@ public class Course {
 
     public void setDurationInWeeks(int durationInWeeks) {
         this.durationInWeeks = durationInWeeks;
+    }
+
+    // **NEW GETTERS/SETTERS**
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public Program getProgram() {
+        return program;
+    }
+
+    public void setProgram(Program program) {
+        this.program = program;
+    }
+
+    public List<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(List<Module> modules) {
+        this.modules = modules;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 }
