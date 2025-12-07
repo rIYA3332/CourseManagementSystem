@@ -12,11 +12,11 @@ public interface ModuleMapper {
 
     ModuleMapper INSTANCE = Mappers.getMapper(ModuleMapper.class);
 
-    // DTO -> Entity
+    // DTO - Entity
     @Mapping(target = "course", ignore = true) // Course is set in the service layer
     Module toEntity(CreateModuleDTO createModuleDTO);
 
-    // Entity -> DTO
+    // Entity - DTO
     @Mapping(source = "course.id", target = "courseId") // Map course entity's ID to courseId in DTO
     ModuleResponseDTO toDTO(Module module);
 }
