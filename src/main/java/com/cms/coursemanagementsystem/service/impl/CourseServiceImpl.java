@@ -3,10 +3,12 @@ package com.cms.coursemanagementsystem.service.impl;
 import com.cms.coursemanagementsystem.dto.request.course.CreateCourseDTO;
 import com.cms.coursemanagementsystem.dto.response.course.CourseResponseDTO;
 import com.cms.coursemanagementsystem.entity.Course;
+import com.cms.coursemanagementsystem.exception.ApiException;
 import com.cms.coursemanagementsystem.mapper.CourseMapper;
 import com.cms.coursemanagementsystem.repository.CourseRepository;
 import com.cms.coursemanagementsystem.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,7 +41,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseResponseDTO getCourseById(Long id) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found with id: " + id));
+                .orElseThrow(() -> new ApiException(
+                        "Course not found with ID: " + id,
+                        HttpStatus.NOT_FOUND)
+                );
         return courseMapper.toDTO(course);
     }
 
