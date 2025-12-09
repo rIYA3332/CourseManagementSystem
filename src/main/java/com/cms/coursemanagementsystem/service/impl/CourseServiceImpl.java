@@ -25,6 +25,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseResponseDTO createCourse(CreateCourseDTO courseDTO) {
+
         Course course = courseMapper.toEntity(courseDTO);
         Course savedCourse = courseRepository.save(course);
         return courseMapper.toDTO(savedCourse);
@@ -41,6 +42,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseResponseDTO getCourseById(Long id) {
         Course course = courseRepository.findById(id)
+                // Correctly handles 404 Not Found
                 .orElseThrow(() -> new ApiException(
                         "Course not found with ID: " + id,
                         HttpStatus.NOT_FOUND)
@@ -51,7 +53,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseResponseDTO updateCourse(Long id, CreateCourseDTO courseDTO) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found with id: " + id));
+
+                .orElseThrow(() -> new ApiException(
+                        "Course not found for update with ID: " + id,
+                        HttpStatus.NOT_FOUND)
+                );
 
         course.setCourseName(courseDTO.courseName());
         course.setDescription(courseDTO.description());
@@ -64,9 +70,13 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public String deleteCourse(Long id) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found with id: " + id));
+
+                .orElseThrow(() -> new ApiException(
+                        "Course not found for deletion with ID: " + id,
+                        HttpStatus.NOT_FOUND)
+                );
 
         courseRepository.delete(course);
-        return "Course with id " + id + " deleted successfully!";
+        return "Course with ID " + id + " deleted successfully!";
     }
 }
