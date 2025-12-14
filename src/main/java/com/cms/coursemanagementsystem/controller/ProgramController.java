@@ -5,6 +5,7 @@ import com.cms.coursemanagementsystem.dto.response.program.ProgramResponseDTO;
 import com.cms.coursemanagementsystem.service.ProgramService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ProgramController {
     private ProgramService programService;
 
     @PostMapping
-    public ProgramResponseDTO createProgram(@RequestBody CreateProgramDTO programDTO) {
+    public ProgramResponseDTO createProgram(@Valid @RequestBody CreateProgramDTO programDTO) {
         return programService.createProgram(programDTO);
     }
 
@@ -31,7 +32,7 @@ public class ProgramController {
     }
 
     @PutMapping("/{id}")
-    public ProgramResponseDTO updateProgram(@PathVariable Long id, @RequestBody CreateProgramDTO programDTO) {
+    public ProgramResponseDTO updateProgram(@Valid @PathVariable Long id, @RequestBody CreateProgramDTO programDTO) {
         return programService.updateProgram(id, programDTO);
     }
 
