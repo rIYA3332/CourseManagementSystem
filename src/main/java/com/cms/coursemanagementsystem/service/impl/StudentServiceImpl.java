@@ -4,6 +4,7 @@ import com.cms.coursemanagementsystem.dto.request.student.CreateStudentDTO;
 import com.cms.coursemanagementsystem.dto.response.student.StudentResponseDTO;
 import com.cms.coursemanagementsystem.entity.Course;
 import com.cms.coursemanagementsystem.entity.Student;
+import com.cms.coursemanagementsystem.exception.ResourceNotFoundException;
 import com.cms.coursemanagementsystem.mapper.StudentMapper;
 import com.cms.coursemanagementsystem.repository.CourseRepository;
 import com.cms.coursemanagementsystem.repository.StudentRepository;
@@ -43,17 +44,19 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Transactional // Use @Transactional to ensure lazy collections are initialized
+    @Transactional
     public StudentResponseDTO getStudentById(Long id) {
-        Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
+        // CHANGED: Use findByIdWithCourses and ResourceNotFoundException
+        Student student = studentRepository.findByIdWithCourses(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
         return studentMapper.toDTO(student);
     }
 
     @Override
     public StudentResponseDTO updateStudent(Long id, CreateStudentDTO studentDTO) {
+        // CHANGED: Use ResourceNotFoundException
         Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
 
         student.setFullName(studentDTO.fullName());
         student.setEmail(studentDTO.email());
@@ -64,11 +67,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String deleteStudent(Long id) {
+        // CHANGED: Use ResourceNotFoundException
         Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
 
         studentRepository.delete(student);
-        return "Student with id " + id + " deleted successfully!";
+        return "Student with ID " + id + " deleted successfully!";
     }
 
 

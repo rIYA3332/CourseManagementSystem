@@ -6,6 +6,7 @@ import com.cms.coursemanagementsystem.dto.response.student.StudentResponseDTO;
 import com.cms.coursemanagementsystem.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -16,10 +17,9 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    // ... (Existing CRUD methods remain the same) ...
 
     @PostMapping
-    public StudentResponseDTO createStudent(@RequestBody CreateStudentDTO studentDTO) {
+    public StudentResponseDTO createStudent(@Valid @RequestBody CreateStudentDTO studentDTO) {
         return studentService.createStudent(studentDTO);
     }
 
@@ -34,7 +34,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public StudentResponseDTO updateStudent(@PathVariable Long id, @RequestBody CreateStudentDTO studentDTO) {
+    public StudentResponseDTO updateStudent(@Valid @PathVariable Long id, @RequestBody CreateStudentDTO studentDTO) {
         return studentService.updateStudent(id, studentDTO);
     }
 

@@ -5,6 +5,7 @@ import com.cms.coursemanagementsystem.dto.response.teacher.TeacherResponseDTO;
 import com.cms.coursemanagementsystem.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class TeacherController {
     private TeacherService teacherService;
 
     @PostMapping
-    public TeacherResponseDTO createTeacher(@RequestBody CreateTeacherDTO dto) {
+    public TeacherResponseDTO createTeacher(@Valid @RequestBody CreateTeacherDTO dto) {
         return teacherService.createTeacher(dto);
     }
 
@@ -31,7 +32,7 @@ public class TeacherController {
     }
 
     @PutMapping("/{id}")
-    public TeacherResponseDTO updateTeacher(@PathVariable Long id, @RequestBody CreateTeacherDTO dto) {
+    public TeacherResponseDTO updateTeacher(@Valid @PathVariable Long id, @RequestBody CreateTeacherDTO dto) {
         return teacherService.updateTeacher(id, dto);
     }
 
