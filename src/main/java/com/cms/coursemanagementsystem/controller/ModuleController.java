@@ -5,6 +5,8 @@ import com.cms.coursemanagementsystem.dto.response.module.ModuleResponseDTO;
 import com.cms.coursemanagementsystem.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class ModuleController {
     private ModuleService moduleService;
 
     @PostMapping
-    public ModuleResponseDTO createModule(@RequestBody CreateModuleDTO moduleDTO) {
+    public ModuleResponseDTO createModule(@Valid @RequestBody CreateModuleDTO moduleDTO) {
         return moduleService.createModule(moduleDTO);
     }
 
@@ -31,7 +33,7 @@ public class ModuleController {
     }
 
     @PutMapping("/{id}")
-    public ModuleResponseDTO updateModule(@PathVariable Long id, @RequestBody CreateModuleDTO moduleDTO) {
+    public ModuleResponseDTO updateModule(@PathVariable Long id, @Valid @RequestBody CreateModuleDTO moduleDTO) {
         return moduleService.updateModule(id, moduleDTO);
     }
 

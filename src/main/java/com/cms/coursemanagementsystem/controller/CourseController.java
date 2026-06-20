@@ -5,6 +5,7 @@ import com.cms.coursemanagementsystem.dto.response.course.CourseResponseDTO;
 import com.cms.coursemanagementsystem.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class CourseController {
     private CourseService courseService;
     // converts CourseRequestDTO to entity
     @PostMapping
-    public CourseResponseDTO createCourse(@RequestBody CreateCourseDTO courseDTO) {
+    public CourseResponseDTO createCourse(@Valid @RequestBody CreateCourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }
 
@@ -31,7 +32,7 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public CourseResponseDTO updateCourse(@PathVariable Long id, @RequestBody CreateCourseDTO courseDTO) {
+    public CourseResponseDTO updateCourse(@PathVariable Long id,@Valid @RequestBody CreateCourseDTO courseDTO) {
         return courseService.updateCourse(id, courseDTO);
     }
 

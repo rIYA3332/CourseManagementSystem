@@ -12,11 +12,11 @@ public interface TeacherMapper {
 
     TeacherMapper INSTANCE = Mappers.getMapper(TeacherMapper.class);
 
-    // DTO -> Entity (Ignore course, it's set in service)
+    // DTO - Entity (Ignore course, it's set in service)
     @Mapping(target = "course", ignore = true)
     Teacher toEntity(CreateTeacherDTO createTeacherDTO);
 
-    // Entity -> DTO (Map course entity's ID to courseId in DTO)
+    // Entity - DTO (Map course entity's ID to courseId in DTO)
     @Mapping(source = "course.id", target = "courseId")
     TeacherResponseDTO toDTO(Teacher teacher);
 }

@@ -30,8 +30,6 @@ public class Course {
     @ManyToMany(mappedBy = "courses")
     private Set<Student> students = new HashSet<>(); // Many courses have many students
 
-    // ... (Constructors and existing getters/setters remain the same) ...
-
     public Course() {}
 
     public Course(String courseName, String description, int durationInWeeks) {
@@ -67,8 +65,6 @@ public class Course {
     public void setDurationInWeeks(int durationInWeeks) {
         this.durationInWeeks = durationInWeeks;
     }
-
-    // **NEW GETTERS/SETTERS**
 
     public Teacher getTeacher() {
         return teacher;

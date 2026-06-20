@@ -18,6 +18,7 @@ public interface StudentMapper {
     StudentResponseDTO toDTO(Student student);
 
     default Long courseToCourseId(com.cms.coursemanagementsystem.entity.Course course) {
+
         return course.getId();
     }
 }
